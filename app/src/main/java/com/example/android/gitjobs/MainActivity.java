@@ -9,5 +9,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Networking using okhttp:
+        //TODO add okhttp dependency
+        //TODO add internet permissions to manifest
+        //TODO build url string
+        //TODO add okhttp request method
+        //TODO parse result string into list
+        //TODO add list into adapter
     }
 }
