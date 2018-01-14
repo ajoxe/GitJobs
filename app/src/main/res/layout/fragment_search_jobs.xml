@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.example.android.gitjobs.fragments.SearchJobsFragment"
+    android:layout_gravity="center">
+
+    <EditText
+        android:id="@+id/keyword_search_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter search keyword"/>
+    <EditText
+        android:id="@+id/location_search_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Location"/>
+    <CheckBox
+        android:id="@+id/full_time_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Full Time"/>
+    <Button
+        android:id="@+id/search_jobs_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        />
+    <TextView
+        android:id="@+id/search_keyword_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="gone"/>
+
+</LinearLayout>
