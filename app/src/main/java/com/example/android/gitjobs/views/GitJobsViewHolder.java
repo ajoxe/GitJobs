@@ -5,4 +5,6 @@ package com.example.android.gitjobs.views;
  */
 
 public class GitJobsViewHolder {
+    //TODO extend recyclerview, implent methods.
+    //TODO add item view
 }

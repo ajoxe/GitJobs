@@ -5,4 +5,6 @@ package com.example.android.gitjobs.controller;
  */
 
 public class GitJobsAdapter {
+    //TODO extend recyclerview.adapter
+    //TODO implement methods
 }
