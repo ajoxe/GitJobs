@@ -7,16 +7,9 @@
     tools:context="com.example.android.gitjobs.MainActivity">
 
     <FrameLayout
-        android:id="@+id/search_fragment_container"
+        android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    </FrameLayout>
-    <FrameLayout
-        android:id="@+id/search_list_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

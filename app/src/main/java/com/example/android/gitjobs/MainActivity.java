@@ -4,9 +4,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.example.android.gitjobs.fragments.SearchJobsFragment;
 import com.example.android.gitjobs.fragments.SearchListFragment;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     SearchJobsFragment searchJobsFragment;
@@ -32,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
         searchListFragment = new SearchListFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.search_fragment_container, searchJobsFragment);
-        fragmentTransaction.replace(R.id.search_list_fragment_container, searchListFragment);
+        fragmentTransaction.replace(R.id.main_fragment_container, searchJobsFragment);
+        //fragmentTransaction.replace(R.id.search_list_fragment_container, searchListFragment);
+        fragmentTransaction.addToBackStack("next");
         fragmentTransaction.commit();
     }
+
 }
