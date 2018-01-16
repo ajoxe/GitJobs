@@ -75,6 +75,7 @@ public class SearchListFragment extends Fragment {
         searchListRecyclerView = (RecyclerView) rootView.findViewById(R.id.search_list_recyclerview);
         gitJobsAdapter = new GitJobsAdapter();
         linearLayoutManager = new LinearLayoutManager(getContext());
+        //cant set or update the adapter until the class is built
         //searchListRecyclerView.setAdapter(gitJobsAdapter);
         searchListRecyclerView.setLayoutManager(linearLayoutManager);
     }
@@ -97,6 +98,7 @@ public class SearchListFragment extends Fragment {
         StringBuilder sb = new StringBuilder(url);
         if(keyword != null) {
             try {
+                //URL encoder, encodes the queries so the url string is formed properly.
                 keyword = URLEncoder.encode(keyword, "UTF-8");
                 sb.append(keywordPref);
                 sb.append(keyword);
@@ -142,17 +144,23 @@ public class SearchListFragment extends Fragment {
             public void onResponse(Response response) throws IOException {
                 final String result = response.body().string();  // 4
                 Log.d("result", result);
+                //sends result to gitjobslisting class which parses the json string.
                 GitJobsListings gitList = new GitJobsListings(result);
+                //adds the parsed jobs to the list.
                 gitJobsList.addAll(gitList.getGitJobsModelList());
+
+                //adds the result string to shared preferences
                 SharedPreferences.Editor editor = gitJobsJson.edit();
                 editor.putString(keyword + location, result);
                 editor.apply();
+                //logs the size
                 Log.d("gitJobsList: ", String.valueOf(gitJobsList.size()));
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
+                            //updates the text views with info from bundle and okhttprequest
                             searchTerm.setText("Search Term: " + keyword);
                             listings.setText("Listings: " + gitJobsList.size());
                             //gitJobsAdapter.notifyDataSetChanged();
