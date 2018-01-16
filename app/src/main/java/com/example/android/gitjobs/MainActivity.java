@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_fragment_container, searchJobsFragment);
-        //fragmentTransaction.replace(R.id.search_list_fragment_container, searchListFragment);
         fragmentTransaction.addToBackStack("next");
         fragmentTransaction.commit();
     }
