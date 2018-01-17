@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">GitJobs</string>
+<<<<<<< HEAD
     <string name="search">Search</string>
     <string name="keyword">Type Keyword</string>
     <string name="location">Type Location</string>
     <string name="type">Enter Type</string>
     <string name="apply_now">Apply Now</string>
     <string name="apply_later">Apply Later</string>
+=======
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_jobs_intro">Find your next gig on GitJobs!</string>
+>>>>>>> master
 </resources>

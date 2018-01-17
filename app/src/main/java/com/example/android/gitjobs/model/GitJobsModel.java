@@ -13,37 +13,7 @@ import java.util.ArrayList;
 
 public class GitJobsModel {
 
-    private String id;
-    private String created_at;
-    private String title;
-    private String location;
-    private String type;
-    private String description;
-    private String how_to_apply;
-    private String company;
-    private String company_url;
-    private String company_logo;
-    private String url;
-
-//    public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
-//        this.id = id;
-//        this.created_at = created_at;
-//        this.title = title;
-//        this.location = location;
-//        this.type = type;
-//        this.description = description;
-//        this.how_to_apply = how_to_apply;
-//        this.company = company;
-//        this.company_url = company_url;
-//        this.company_logo = company_logo;
-//        this.url = url;
-//    }
-
-    public GitJobsModel(Object id, Object created_at, Object title, Object location, Object type, Object description, Object how_to_apply, Object company, Object company_url, Object company_logo, Object url) {
-    }
-
-//This is the retrofit constructor, not necessary for okhttp.
-    /*public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
+    public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
         this.id = id;
         this.created_at = created_at;
         this.title = title;
@@ -55,7 +25,22 @@ public class GitJobsModel {
         this.company_url = company_url;
         this.company_logo = company_logo;
         this.url = url;
-    }*/
+    }
+
+    public GitJobsModel(Object id, Object created_at, Object title, Object location, Object type, Object description, Object how_to_apply, Object company, Object company_url, Object company_logo, Object url) {
+    }
+
+    String id;
+    String created_at;
+    String title;
+    String location;
+    String type;
+    String description;
+    String how_to_apply;
+    String company;
+    String company_url;
+    String company_logo;
+    String url;
 
 
     public String getId() {

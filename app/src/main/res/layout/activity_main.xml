@@ -6,8 +6,6 @@
     android:orientation="vertical"
     tools:context="com.example.android.gitjobs.MainActivity">
 
-<!--Each of these Edit Texts must store and translate the options toward depicting results
-(Search term or search preferences)-->
 
     <EditText
         android:id="@+id/key_word_et"
@@ -38,5 +36,13 @@
         android:text="@string/search"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="230dp"/>
+
+
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
 
 </LinearLayout>

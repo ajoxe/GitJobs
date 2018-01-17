@@ -65,5 +65,4 @@ public class GitJobsViewHolder extends RecyclerView.ViewHolder{
             }
         });
     }
-
 }
