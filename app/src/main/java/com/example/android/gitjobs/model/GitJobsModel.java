@@ -1,22 +1,27 @@
 package com.example.android.gitjobs.model;
 
+import android.media.Image;
+import android.widget.ImageView;
+
+import java.util.ArrayList;
+
 /**
  * Created by BabiMaji on 1/13/18.
  */
 
 public class GitJobsModel {
 
-    String id;
-    String created_at;
-    String title;
-    String location;
-    String type;
-    String description;
-    String how_to_apply;
-    String company;
-    String company_url;
-    String company_logo;
-    String url;
+    private String id;
+    private String created_at;
+    private String title;
+    private String location;
+    private String type;
+    private String description;
+    private String how_to_apply;
+    private String company;
+    private String company_url;
+    private String company_logo;
+    private String url;
 
     public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
         this.id = id;
@@ -30,6 +35,10 @@ public class GitJobsModel {
         this.company_url = company_url;
         this.company_logo = company_logo;
         this.url = url;
+    }
+
+    public void gitJobsModelList(){
+        ArrayList<GitJobsModel> gitJobsModelList;
     }
 
     public String getId() {
