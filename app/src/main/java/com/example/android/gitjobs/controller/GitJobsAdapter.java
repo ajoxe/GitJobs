@@ -1,5 +1,6 @@
 package com.example.android.gitjobs.controller;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,15 @@ import java.util.List;
 
 public class GitJobsAdapter extends RecyclerView.Adapter<GitJobsViewHolder>{
 
-    private List<GitJobsModel> gitJobsModelList;
+    //TODO extend recyclerview.adapter
+    //TODO implement methods
 
-    public GitJobsAdapter(List<GitJobsModel> gitJobsModelList) {
-        this.gitJobsModelList = gitJobsModelList;
-        notifyDataSetChanged();
+    List<GitJobsModel> jobsList;
+    Context context;
+
+    public GitJobsAdapter(List<GitJobsModel> jobsList, Context context) {
+        this.jobsList = jobsList;
+        this.context = context;
     }
 
     @Override
@@ -32,12 +37,16 @@ public class GitJobsAdapter extends RecyclerView.Adapter<GitJobsViewHolder>{
 
     @Override
     public void onBindViewHolder(GitJobsViewHolder holder, int position) {
-        gitJobsModelList.get(position);
-        holder.onBind(gitJobsModelList);
+        jobsList.get(position);
+        holder.onBind(jobsList);
+
     }
 
     @Override
     public int getItemCount() {
-        return gitJobsModelList.size();
+        return jobsList.size();
     }
+
+
+
 }
