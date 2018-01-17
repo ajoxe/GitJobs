@@ -13,13 +13,15 @@
             android:id="@+id/search_term_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search Term"
-            android:paddingBottom="16dp"/>
+            android:text="Search Term: "
+            android:paddingBottom="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
         <TextView
             android:id="@+id/listings_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Listings"/>
+            android:text="Listings: "
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
 
     </LinearLayout>
 

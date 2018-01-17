@@ -1,30 +1,25 @@
 package com.example.android.gitjobs;
 
-import android.content.Intent;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.android.gitjobs.fragments.SearchJobsFragment;
 import com.example.android.gitjobs.fragments.SearchListFragment;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     SearchJobsFragment searchJobsFragment;
     SearchListFragment searchListFragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack("next");
         fragmentTransaction.commit();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -62,5 +59,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
 }
