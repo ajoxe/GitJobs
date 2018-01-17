@@ -1,5 +1,6 @@
 package com.example.android.gitjobs;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        switch (item.getItemId()){
+            case R.id.search_menu:
+                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, searchJobsFragment).commit();
+        }
+        return true;
     }
 
 }
