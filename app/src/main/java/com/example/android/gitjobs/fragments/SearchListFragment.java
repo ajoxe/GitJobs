@@ -53,6 +53,7 @@ public class SearchListFragment extends Fragment {
     String location;
     boolean isFullTime;
     RecyclerView recyclerView;
+    View.OnClickListener searchListButtonClick;
 
 
     public SearchListFragment() {
@@ -92,6 +93,18 @@ public class SearchListFragment extends Fragment {
         makeRequestWithOkHttp(buildUrlString());
         Log.d("updateSearch method", keyword + location);
     }
+
+    public void setSearchListButton(){
+        searchListButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        };
+    }
+
+
 
     //uses a string builder to add keyword, location, and fultime queries to the url string.
     //if no info is provided, all jobs will be returned.
