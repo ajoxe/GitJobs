@@ -1,6 +1,7 @@
 package com.example.android.gitjobs.fragments;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,6 +55,7 @@ public class SearchListFragment extends Fragment {
     boolean isFullTime;
     RecyclerView recyclerView;
     View.OnClickListener searchListButtonClick;
+    Context context;
 
 
     public SearchListFragment() {
@@ -71,6 +73,7 @@ public class SearchListFragment extends Fragment {
         listings = rootView.findViewById(R.id.listings_textview);
         recyclerView = rootView.findViewById(R.id.search_list_recyclerview);
         setRecyclerView();
+        context = getContext();
         return rootView;
     }
 
