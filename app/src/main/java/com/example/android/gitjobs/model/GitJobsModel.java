@@ -1,11 +1,17 @@
 package com.example.android.gitjobs.model;
 
+import android.media.Image;
+import android.widget.ImageView;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by BabiMaji on 1/13/18.
  */
 
 public class GitJobsModel {
-
     String id;
     String created_at;
     String title;
@@ -18,9 +24,10 @@ public class GitJobsModel {
     String company_logo;
     String url;
 
+    public GitJobsModel() {
+    }
 
-    //This is the retrofit constructor, not necessary for okhttp.
-    /*public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
+    public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
         this.id = id;
         this.created_at = created_at;
         this.title = title;
@@ -32,7 +39,8 @@ public class GitJobsModel {
         this.company_url = company_url;
         this.company_logo = company_logo;
         this.url = url;
-    }*/
+    }
+
 
     public String getId() {
         return id;
