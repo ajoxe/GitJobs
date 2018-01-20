@@ -114,14 +114,11 @@ public class SearchListFragment extends Fragment {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
         }
         if (isFullTime){
             sb.append(fullTime);
         }
-
         url = sb.toString();
-
         Log.d("buildUrl", url);
         return url;
     }
@@ -130,6 +127,7 @@ public class SearchListFragment extends Fragment {
     //which parses the json string. it adds the list to the gitJobs list in this class, and also adds the result
     //to the shared preferences with the keyword and location as the key (because each search request will be different)
     //it also notifies the adapter on the main thread.
+
     private void makeRequestWithOkHttp(String url) {
         OkHttpClient client = new OkHttpClient();   // 1
         Request request = new Request.Builder().url(url).build();  // 2
@@ -147,12 +145,10 @@ public class SearchListFragment extends Fragment {
                 //sends result to gitjobslisting class which parses the json string.
                 GitJobsListings gitList = new GitJobsListings(result);
                 //adds the parsed jobs to the list.
-                gitJobsList.addAll(gitList.getGitJobsModelList());
 
-                //adds the result string to shared preferences
-                SharedPreferences.Editor editor = gitJobsJson.edit();
-                editor.putString(keyword + location, result);
-                editor.apply();
+                gitJobsList.addAll(gitList.getGitJobsModelList());
+                //gitJobsAdapter.notifyDataSetChanged();
+
                 //logs the size
                 Log.d("gitJobsList: ", String.valueOf(gitJobsList.size()));
 
@@ -163,8 +159,6 @@ public class SearchListFragment extends Fragment {
                             //updates the text views with info from bundle and okhttprequest
                             searchTerm.setText("Search Term: " + keyword);
                             listings.setText("Listings: " + gitJobsList.size());
-                            //gitJobsAdapter.notifyDataSetChanged();
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

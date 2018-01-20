@@ -24,6 +24,7 @@ import java.util.List;
 public class GitJobsListings {
     private List<GitJobsModel> gitJobsModelList;
     private HashMap<String, GitJobsModel> gitJobsModelHashMap;
+    private GitJobsModel job;
 
     public GitJobsListings(String gitJobsJson){
         buildJobsList(gitJobsJson);
@@ -60,5 +61,10 @@ public class GitJobsListings {
 
     public HashMap<String, GitJobsModel> getGitJobsModelHashMap() {
         return gitJobsModelHashMap;
+    }
+
+    public GitJobsModel getJobFromListById(String id){
+        job = gitJobsModelHashMap.get(id);
+        return job;
     }
 }
