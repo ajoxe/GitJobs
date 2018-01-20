@@ -6,12 +6,12 @@
     android:padding="32dp"
     tools:context="com.example.android.gitjobs.fragments.SearchJobsFragment"
     android:layout_gravity="center">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/search_jobs_intro"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-        android:textColor="@color/colorPrimaryDark"
         android:textSize="32sp"
         android:textAlignment="center"
         android:layout_marginBottom="32dp"
@@ -23,12 +23,20 @@
         android:layout_height="wrap_content"
         android:hint="Enter search keyword"
         android:paddingBottom="16dp"/>
+
     <EditText
         android:id="@+id/location_search_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Location"
         android:paddingBottom="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/term_checkboxes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
     <CheckBox
         android:id="@+id/full_time_checkbox"
         android:layout_width="wrap_content"
@@ -37,14 +45,17 @@
         android:paddingTop="16dp"
         android:paddingBottom="32dp"
         android:layout_gravity="end"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/search_jobs_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search"
         android:background="@color/colorPrimary"
-        android:textColor="#ffffff"
         android:layout_gravity="center"
         />
+
 
 </LinearLayout>

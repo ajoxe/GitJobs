@@ -1,10 +1,34 @@
 package com.example.android.gitjobs.model;
 
+import android.media.Image;
+import android.widget.ImageView;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by BabiMaji on 1/13/18.
  */
 
 public class GitJobsModel {
+
+    public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
+        this.id = id;
+        this.created_at = created_at;
+        this.title = title;
+        this.location = location;
+        this.type = type;
+        this.description = description;
+        this.how_to_apply = how_to_apply;
+        this.company = company;
+        this.company_url = company_url;
+        this.company_logo = company_logo;
+        this.url = url;
+    }
+
+    public GitJobsModel(Object id, Object created_at, Object title, Object location, Object type, Object description, Object how_to_apply, Object company, Object company_url, Object company_logo, Object url) {
+    }
 
     String id;
     String created_at;
@@ -18,21 +42,6 @@ public class GitJobsModel {
     String company_logo;
     String url;
 
-
-    //This is the retrofit constructor, not necessary for okhttp.
-    /*public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
-        this.id = id;
-        this.created_at = created_at;
-        this.title = title;
-        this.location = location;
-        this.type = type;
-        this.description = description;
-        this.how_to_apply = how_to_apply;
-        this.company = company;
-        this.company_url = company_url;
-        this.company_logo = company_logo;
-        this.url = url;
-    }*/
 
     public String getId() {
         return id;

@@ -52,6 +52,7 @@ public class SearchListFragment extends Fragment {
     String keyword;
     String location;
     boolean isFullTime;
+    RecyclerView recyclerView;
 
 
     public SearchListFragment() {
@@ -65,18 +66,19 @@ public class SearchListFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_search_list, container, false);
         gitJobsJson = getActivity().getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
-        searchTerm = (TextView) rootView.findViewById(R.id.search_term_textview);
-        listings = (TextView) rootView.findViewById(R.id.listings_textview);
-        //setRecyclerView();
+        searchTerm = rootView.findViewById(R.id.search_term_textview);
+        listings = rootView.findViewById(R.id.listings_textview);
+        recyclerView = rootView.findViewById(R.id.search_list_recyclerview);
+        setRecyclerView();
         return rootView;
     }
 
     public void setRecyclerView(){
-        searchListRecyclerView = (RecyclerView) rootView.findViewById(R.id.search_list_recyclerview);
-        gitJobsAdapter = new GitJobsAdapter();
+        searchListRecyclerView = rootView.findViewById(R.id.search_list_recyclerview);
+        gitJobsAdapter = new GitJobsAdapter(gitJobsList, getContext());
         linearLayoutManager = new LinearLayoutManager(getContext());
         //cant set or update the adapter until the class is built
-        //searchListRecyclerView.setAdapter(gitJobsAdapter);
+        searchListRecyclerView.setAdapter(gitJobsAdapter);
         searchListRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -114,11 +116,14 @@ public class SearchListFragment extends Fragment {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
+
         }
         if (isFullTime){
             sb.append(fullTime);
         }
+
         url = sb.toString();
+
         Log.d("buildUrl", url);
         return url;
     }
@@ -127,7 +132,6 @@ public class SearchListFragment extends Fragment {
     //which parses the json string. it adds the list to the gitJobs list in this class, and also adds the result
     //to the shared preferences with the keyword and location as the key (because each search request will be different)
     //it also notifies the adapter on the main thread.
-
     private void makeRequestWithOkHttp(String url) {
         OkHttpClient client = new OkHttpClient();   // 1
         Request request = new Request.Builder().url(url).build();  // 2
@@ -145,10 +149,13 @@ public class SearchListFragment extends Fragment {
                 //sends result to gitjobslisting class which parses the json string.
                 GitJobsListings gitList = new GitJobsListings(result);
                 //adds the parsed jobs to the list.
-
                 gitJobsList.addAll(gitList.getGitJobsModelList());
-                //gitJobsAdapter.notifyDataSetChanged();
+//
 
+                //adds the result string to shared preferences
+                /*SharedPreferences.Editor editor = gitJobsJson.edit();
+                editor.putString(keyword + location, result);
+                editor.apply();*/
                 //logs the size
                 Log.d("gitJobsList: ", String.valueOf(gitJobsList.size()));
 
@@ -159,6 +166,9 @@ public class SearchListFragment extends Fragment {
                             //updates the text views with info from bundle and okhttprequest
                             searchTerm.setText("Search Term: " + keyword);
                             listings.setText("Listings: " + gitJobsList.size());
+                            gitJobsAdapter.notifyDataSetChanged();
+
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
