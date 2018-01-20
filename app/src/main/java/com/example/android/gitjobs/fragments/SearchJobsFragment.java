@@ -41,6 +41,7 @@ public class SearchJobsFragment extends Fragment {
         keywordSearch = (EditText) rootView.findViewById(R.id.keyword_search_edittext);
         locationSearch = (EditText) rootView.findViewById(R.id.location_search_edittext);
         fulltimeCheck = (CheckBox) rootView.findViewById(R.id.full_time_checkbox);
+
         searchButton = (Button) rootView.findViewById(R.id.search_jobs_button);
         searchButtonOnClick();
         return rootView;
