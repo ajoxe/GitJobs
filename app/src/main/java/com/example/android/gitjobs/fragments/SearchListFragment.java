@@ -52,6 +52,7 @@ public class SearchListFragment extends Fragment {
     String keyword;
     String location;
     boolean isFullTime;
+    RecyclerView recyclerView;
 
 
     public SearchListFragment() {
@@ -65,18 +66,19 @@ public class SearchListFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_search_list, container, false);
         gitJobsJson = getActivity().getSharedPreferences(SHARED_PREFS_KEY, MODE_PRIVATE);
-        searchTerm = (TextView) rootView.findViewById(R.id.search_term_textview);
-        listings = (TextView) rootView.findViewById(R.id.listings_textview);
-        //setRecyclerView();
+        searchTerm = rootView.findViewById(R.id.search_term_textview);
+        listings = rootView.findViewById(R.id.listings_textview);
+        recyclerView = rootView.findViewById(R.id.search_list_recyclerview);
+        setRecyclerView();
         return rootView;
     }
 
     public void setRecyclerView(){
-        searchListRecyclerView = (RecyclerView) rootView.findViewById(R.id.search_list_recyclerview);
-        gitJobsAdapter = new GitJobsAdapter();
+        searchListRecyclerView = rootView.findViewById(R.id.search_list_recyclerview);
+        gitJobsAdapter = new GitJobsAdapter(gitJobsList, getContext());
         linearLayoutManager = new LinearLayoutManager(getContext());
         //cant set or update the adapter until the class is built
-        //searchListRecyclerView.setAdapter(gitJobsAdapter);
+        searchListRecyclerView.setAdapter(gitJobsAdapter);
         searchListRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -148,11 +150,12 @@ public class SearchListFragment extends Fragment {
                 GitJobsListings gitList = new GitJobsListings(result);
                 //adds the parsed jobs to the list.
                 gitJobsList.addAll(gitList.getGitJobsModelList());
+//
 
                 //adds the result string to shared preferences
-                SharedPreferences.Editor editor = gitJobsJson.edit();
+                /*SharedPreferences.Editor editor = gitJobsJson.edit();
                 editor.putString(keyword + location, result);
-                editor.apply();
+                editor.apply();*/
                 //logs the size
                 Log.d("gitJobsList: ", String.valueOf(gitJobsList.size()));
 
@@ -163,7 +166,8 @@ public class SearchListFragment extends Fragment {
                             //updates the text views with info from bundle and okhttprequest
                             searchTerm.setText("Search Term: " + keyword);
                             listings.setText("Listings: " + gitJobsList.size());
-                            //gitJobsAdapter.notifyDataSetChanged();
+                            gitJobsAdapter.notifyDataSetChanged();
+
 
                         } catch (Exception e) {
                             e.printStackTrace();

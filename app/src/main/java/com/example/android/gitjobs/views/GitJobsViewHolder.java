@@ -10,9 +10,6 @@ import android.widget.TextView;
 import com.example.android.gitjobs.R;
 import com.example.android.gitjobs.model.GitJobsModel;
 
-import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by BabiMaji on 1/13/18.

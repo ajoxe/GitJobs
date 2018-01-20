@@ -37,8 +37,8 @@ public class GitJobsAdapter extends RecyclerView.Adapter<GitJobsViewHolder>{
 
     @Override
     public void onBindViewHolder(GitJobsViewHolder holder, int position) {
-        jobsList.get(position);
-        holder.onBind((GitJobsModel) jobsList);
+        GitJobsModel job = jobsList.get(position);
+        holder.onBind(job);
 
     }
 
