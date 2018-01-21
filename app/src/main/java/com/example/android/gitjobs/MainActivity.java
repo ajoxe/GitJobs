@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.android.gitjobs.fragments.JobsAppliedToFragment;
+import com.example.android.gitjobs.fragments.SavedJobsFragment;
 import com.example.android.gitjobs.model.GitJobsModel;
 
 import org.json.JSONArray;
@@ -33,6 +35,8 @@ import com.squareup.okhttp.Response;
 public class MainActivity extends AppCompatActivity {
     SearchJobsFragment searchJobsFragment;
     SearchListFragment searchListFragment;
+    SavedJobsFragment savedJobsFragment;
+    JobsAppliedToFragment jobsAppliedToFragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -97,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
     public void setFragments(){
         searchJobsFragment = new SearchJobsFragment();
         searchListFragment = new SearchListFragment();
+        savedJobsFragment = new SavedJobsFragment();
+        jobsAppliedToFragment = new JobsAppliedToFragment();
+
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
@@ -117,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.search_menu:
                 fragmentManager.beginTransaction().replace(R.id.main_fragment_container, searchJobsFragment).commit();
+                break;
+            case R.id.saved_menu:
+                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, savedJobsFragment).commit();
+                break;
+            case R.id.applied_menu:
+                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, jobsAppliedToFragment).commit();
+                break;
         }
         return true;
     }
