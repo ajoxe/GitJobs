@@ -78,7 +78,7 @@ public class SearchListFragment extends Fragment {
         listings = rootView.findViewById(R.id.listings_textview);
         recyclerView = rootView.findViewById(R.id.search_list_recyclerview);
         setRecyclerView();
-        context = getContext();
+        context = getContext().getApplicationContext();
         return rootView;
     }
 
@@ -108,9 +108,9 @@ public class SearchListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String jobId = v.getTag().toString();
-                /*GitJobsModel job = gitList.getJobFromListById(jobId);
-                GitJobsDBHelper db = new GitJobsDBHelper(context);
-                db.insertJob(job, "search");*/
+                GitJobsModel job = gitList.getJobFromListById(jobId);
+                GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
+                db.insertJob(job, "search");
                 GitJobsDetailFragment detailFragment = new GitJobsDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("job_id", jobId);

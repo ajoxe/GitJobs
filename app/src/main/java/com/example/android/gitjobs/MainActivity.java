@@ -1,6 +1,7 @@
 package com.example.android.gitjobs;
 
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setFragments();
+        /*GitJobsDBHelper dbHelper = new GitJobsDBHelper(getApplicationContext());
+        dbHelper.deleteTable();
+        long size = dbHelper.getReadableDatabase().getPageSize();
+        Log.d("size", String.valueOf(size));
+        dbHelper.close();*/
+        //String faux ="gitjob";
+        //db.insertJob(new GitJobsModel(faux,faux,faux,faux,faux, faux, faux, faux, faux, faux, faux), "search");
     }
 
 //    public void okhttpConnection(){
