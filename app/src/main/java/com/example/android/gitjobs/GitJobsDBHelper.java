@@ -102,6 +102,7 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_NAME_URL, job.getUrl());
             long rowid = db.insert(TABLE_NAME, null, contentValues);
             Log.d(TAG, "insertJob: rowID = " + String.valueOf(rowid));
+        Log.d(TAG, "insertJob: status = " + status);
             GitJobsModel insertJob = getJobById(job.getId());
             Log.d(TAG,"insertJob: getJobById: job_id = " +  job.getId());
             db.close();
