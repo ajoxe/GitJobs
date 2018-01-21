@@ -120,8 +120,9 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_NAME_URL, job.getUrl());
             long rowid = db.insert(TABLE_NAME, null, contentValues);
             Log.d("row id", String.valueOf(rowid));
-            GitJobsModel insertJob = getJobById(job.getId());
-            Log.d("insertedJob", job.getId());
+            /*GitJobsModel insertJob = getJobById(job.getId());
+            Log.d("insertedJob", job.getId());*/
+            db.close();
 
         return true;
     }
@@ -177,12 +178,11 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
     }
 
     public GitJobsModel getJobById(String id){
-
         Log.d("job id", id);
         GitJobsModel job = new GitJobsModel();
         Cursor cursor = this.getReadableDatabase()
                 .rawQuery(
-                "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='search';", null);
+                "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_JOB_ID + " ='" +id+ "';", null);
         if (cursor.moveToFirst()) {
             do {
 

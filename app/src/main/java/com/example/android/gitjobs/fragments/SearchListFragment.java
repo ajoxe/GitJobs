@@ -2,9 +2,12 @@ package com.example.android.gitjobs.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,6 +61,8 @@ public class SearchListFragment extends Fragment {
     boolean isFullTime;
     RecyclerView recyclerView;
     View.OnClickListener searchListButtonClick;
+    View.OnClickListener saveButtonClick;
+    View.OnClickListener applyButtonClick;
     Context context;
     GitJobsListings gitList;
     String jsonResult;
@@ -101,6 +106,31 @@ public class SearchListFragment extends Fragment {
         isFullTime = bundle.getBoolean("isFullTime");
         makeRequestWithOkHttp(buildUrlString());
         Log.d("updateSearch method", keyword + location);
+    }
+
+    public void setApplyButton(){
+        searchListButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String jobId = v.getTag().toString();
+                GitJobsModel job = gitList.getJobFromListById(jobId);
+                GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
+                db.insertJob(job, "apply");
+                Intent applyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.getUrl()));
+            }
+        };
+    }
+
+    public void setSaveButton(){
+        searchListButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String jobId = v.getTag().toString();
+                GitJobsModel job = gitList.getJobFromListById(jobId);
+                GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
+                db.insertJob(job, "save");
+            }
+        };
     }
 
     public void setSearchListButton(){
