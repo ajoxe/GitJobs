@@ -19,7 +19,7 @@ import com.example.android.gitjobs.model.GitJobsModel;
 
 public class GitJobsViewHolder extends RecyclerView.ViewHolder{
 
-    ImageView jobLogo;
+//    ImageView jobLogo;
     TextView tv1;
     TextView tv2;
     TextView tv3;
@@ -35,7 +35,7 @@ public class GitJobsViewHolder extends RecyclerView.ViewHolder{
     public GitJobsViewHolder(View itemView) {
         super(itemView);
 
-        jobLogo = itemView.findViewById(R.id.logo_image_view);
+//        jobLogo = itemView.findViewById(R.id.logo_image_view);
         tv1 = itemView.findViewById(R.id.git_jobs_title_text_view);
         tv2 = itemView.findViewById(R.id.git_jobs_company_text_view);
         tv3 = itemView.findViewById(R.id.git_jobs_created_at_text_view);
@@ -47,6 +47,7 @@ public class GitJobsViewHolder extends RecyclerView.ViewHolder{
 
     public void onBind(GitJobsModel gitJobsModel) {
         Log.d("onBind", "onBind: ");
+//        jobLogo.setImageResource(Integer.parseInt(gitJobsModel.getCompany_logo()));
         tv1.setText(gitJobsModel.getTitle());
         tv2.setText(gitJobsModel.getCompany());
         tv3.setText(gitJobsModel.getCreated_at());
