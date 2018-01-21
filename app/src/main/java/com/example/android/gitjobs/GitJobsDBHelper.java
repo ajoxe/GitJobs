@@ -125,8 +125,8 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCRIPTION)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HOW_TO_APPLY)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
                 gitSavedJobs.add(job);
             } while (cursor.moveToNext());
