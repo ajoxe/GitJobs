@@ -49,6 +49,7 @@ public class GitJobsDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
         View rootView = inflater.inflate(R.layout.fragment_git_jobs_detail, container, false);
         company = rootView.findViewById(R.id.job_company);
         jobCreated = rootView.findViewById(R.id.job_created);
@@ -71,6 +72,7 @@ public class GitJobsDetailFragment extends Fragment {
         type.setText(job.getType());
         description.setText(Html.fromHtml(job.getDescription()));
         apply.setText(Html.fromHtml(job.getHow_to_apply()));
+
         url.setVisibility(View.GONE);
         if (job.getCompany_url() != null){
             url.setVisibility(View.VISIBLE);
@@ -84,6 +86,7 @@ public class GitJobsDetailFragment extends Fragment {
             });
         }
 
+        Log.d("detail", "company url: " + job.getCompany_url());
 
 
         Picasso.with(context).load(job.getCompany_logo()).into(logo);

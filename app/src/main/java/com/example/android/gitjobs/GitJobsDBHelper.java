@@ -102,6 +102,7 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_NAME_URL, job.getUrl());
             long rowid = db.insert(TABLE_NAME, null, contentValues);
             Log.d(TAG, "insertJob: rowID = " + String.valueOf(rowid));
+        Log.d(TAG, "insertJob: status = " + status);
             GitJobsModel insertJob = getJobById(job.getId());
             Log.d(TAG,"insertJob: getJobById: job_id = " +  job.getId());
             db.close();
@@ -125,8 +126,8 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCRIPTION)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HOW_TO_APPLY)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
                 gitSavedJobs.add(job);
             } while (cursor.moveToNext());
@@ -152,8 +153,8 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCRIPTION)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HOW_TO_APPLY)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
                 gitAppliedJobs.add(job);
             } while (cursor.moveToNext());
@@ -181,8 +182,8 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCRIPTION)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HOW_TO_APPLY)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
             } while (cursor.moveToNext());
         }

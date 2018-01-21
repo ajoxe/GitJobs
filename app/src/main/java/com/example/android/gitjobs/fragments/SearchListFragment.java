@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.gitjobs.GitJobsDBHelper;
 import com.example.android.gitjobs.GitJobsListings;
@@ -93,7 +94,9 @@ public class SearchListFragment extends Fragment {
     public void setRecyclerView(){
         searchListRecyclerView = rootView.findViewById(R.id.search_list_recyclerview);
         setSearchListButton();
-        gitJobsAdapter = new GitJobsAdapter(gitJobsList, getContext(), searchListButtonClick);
+        setSaveButton();
+        setApplyButton();
+        gitJobsAdapter = new GitJobsAdapter(gitJobsList, getContext(), searchListButtonClick, saveButtonClick,applyButtonClick);
         linearLayoutManager = new LinearLayoutManager(getContext());
         //cant set or update the adapter until the class is built
         searchListRecyclerView.setAdapter(gitJobsAdapter);
@@ -112,7 +115,7 @@ public class SearchListFragment extends Fragment {
     }
 
     public void setApplyButton(){
-        searchListButtonClick = new View.OnClickListener() {
+        applyButtonClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String jobId = v.getTag().toString();
@@ -120,18 +123,21 @@ public class SearchListFragment extends Fragment {
                 GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
                 db.insertJob(job, _STATUS_APPLIED);
                 Intent applyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.getUrl()));
+                startActivity(applyIntent);
+                Toast.makeText(getActivity(), "This job is saved to your 'applied' list!", Toast.LENGTH_SHORT).show();
             }
         };
     }
 
     public void setSaveButton(){
-        searchListButtonClick = new View.OnClickListener() {
+        saveButtonClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String jobId = v.getTag().toString();
                 GitJobsModel job = gitList.getJobFromListById(jobId);
                 GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
                 db.insertJob(job, _STATUS_SAVED);
+                Toast.makeText(getActivity(), "This job is saved to your 'saved' list!", Toast.LENGTH_SHORT).show();
             }
         };
     }
