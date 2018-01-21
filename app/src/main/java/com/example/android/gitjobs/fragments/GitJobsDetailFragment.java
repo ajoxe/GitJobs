@@ -36,6 +36,7 @@ public class GitJobsDetailFragment extends Fragment {
     Context context;
 
     GitJobsModel job = new GitJobsModel();
+    GitJobsDBHelper db;
 
     public GitJobsDetailFragment() {
         // Required empty public constructor
@@ -59,6 +60,8 @@ public class GitJobsDetailFragment extends Fragment {
         logo = rootView.findViewById(R.id.company_logo);
 
         context = getActivity().getApplicationContext();
+        db = new GitJobsDBHelper(getActivity());
+        job = db.getJobById(job_id);
 
         company.setText(job.getCompany());
         jobCreated.setText(job.getCreated_at());
@@ -76,15 +79,6 @@ public class GitJobsDetailFragment extends Fragment {
     public void updateId(Bundle bundle){
         job_id = bundle.getString("job_id");
         Log.d("jobs id detail", job_id);
-
-        result = bundle.getString("result");
-        GitJobsListings gitutil = new GitJobsListings(result);
-        jobs.addAll(gitutil.getGitJobsModelList());
-        Log.d("jobs list", String.valueOf(jobs.size()));
-        job = gitutil.getJobFromListById(job_id);
-
-       /* GitJobsDBHelper db = new GitJobsDBHelper(context);
-        db.getJobById(job_id);*/
 
     }
 
