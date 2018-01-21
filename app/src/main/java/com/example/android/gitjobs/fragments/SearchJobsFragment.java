@@ -65,6 +65,7 @@ public class SearchJobsFragment extends Fragment {
                 searchListFragment.updateSearchList(searchBundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
                 fragmentTransaction.replace(R.id.main_fragment_container, searchListFragment);
                 fragmentTransaction.addToBackStack("next");
                 fragmentTransaction.commit();

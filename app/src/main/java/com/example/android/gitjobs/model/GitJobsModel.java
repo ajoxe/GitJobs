@@ -12,6 +12,20 @@ import java.util.ArrayList;
  */
 
 public class GitJobsModel {
+    String id;
+    String created_at;
+    String title;
+    String location;
+    String type;
+    String description;
+    String how_to_apply;
+    String company;
+    String company_url;
+    String company_logo;
+    String url;
+
+    public GitJobsModel() {
+    }
 
     public GitJobsModel(String id, String created_at, String title, String location, String type, String description, String how_to_apply, String company, String company_url, String company_logo, String url) {
         this.id = id;
@@ -26,21 +40,6 @@ public class GitJobsModel {
         this.company_logo = company_logo;
         this.url = url;
     }
-
-    public GitJobsModel(Object id, Object created_at, Object title, Object location, Object type, Object description, Object how_to_apply, Object company, Object company_url, Object company_logo, Object url) {
-    }
-
-    String id;
-    String created_at;
-    String title;
-    String location;
-    String type;
-    String description;
-    String how_to_apply;
-    String company;
-    String company_url;
-    String company_logo;
-    String url;
 
 
     public String getId() {

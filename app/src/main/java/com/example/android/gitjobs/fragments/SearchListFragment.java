@@ -1,9 +1,15 @@
 package com.example.android.gitjobs.fragments;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.android.gitjobs.GitJobsDBHelper;
 import com.example.android.gitjobs.GitJobsListings;
 import com.example.android.gitjobs.MainActivity;
 import com.example.android.gitjobs.R;
@@ -32,6 +40,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry._STATUS_APPLIED;
+import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry._STATUS_SAVED;
+import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry._STATUS_SEARCHED;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +66,12 @@ public class SearchListFragment extends Fragment {
     String location;
     boolean isFullTime;
     RecyclerView recyclerView;
+    View.OnClickListener searchListButtonClick;
+    View.OnClickListener saveButtonClick;
+    View.OnClickListener applyButtonClick;
+    Context context;
+    GitJobsListings gitList;
+    String jsonResult;
 
 
     public SearchListFragment() {
@@ -72,12 +89,16 @@ public class SearchListFragment extends Fragment {
         listings = rootView.findViewById(R.id.listings_textview);
         recyclerView = rootView.findViewById(R.id.search_list_recyclerview);
         setRecyclerView();
+        context = getContext().getApplicationContext();
         return rootView;
     }
 
     public void setRecyclerView(){
         searchListRecyclerView = rootView.findViewById(R.id.search_list_recyclerview);
-        gitJobsAdapter = new GitJobsAdapter(gitJobsList, getContext());
+        setSearchListButton();
+        setSaveButton();
+        setApplyButton();
+        gitJobsAdapter = new GitJobsAdapter(gitJobsList, getContext(), searchListButtonClick, saveButtonClick,applyButtonClick);
         linearLayoutManager = new LinearLayoutManager(getContext());
         //cant set or update the adapter until the class is built
         searchListRecyclerView.setAdapter(gitJobsAdapter);
@@ -94,6 +115,58 @@ public class SearchListFragment extends Fragment {
         makeRequestWithOkHttp(buildUrlString());
         Log.d("updateSearch method", keyword + location);
     }
+
+    public void setApplyButton(){
+        applyButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String jobId = v.getTag().toString();
+                GitJobsModel job = gitList.getJobFromListById(jobId);
+                GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
+                db.insertJob(job, _STATUS_APPLIED);
+                Intent applyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.getUrl()));
+                startActivity(applyIntent);
+                Toast.makeText(getActivity(), "This job is saved to your 'applied' list!", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    public void setSaveButton(){
+        saveButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String jobId = v.getTag().toString();
+                GitJobsModel job = gitList.getJobFromListById(jobId);
+                GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
+                db.insertJob(job, _STATUS_SAVED);
+                Toast.makeText(getActivity(), "This job is saved to your 'saved' list!", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    public void setSearchListButton(){
+        searchListButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String jobId = v.getTag().toString();
+                GitJobsModel job = gitList.getJobFromListById(jobId);
+                GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
+                db.insertJob(job, _STATUS_SEARCHED);
+                GitJobsDetailFragment detailFragment = new GitJobsDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("job_id", jobId);
+                detailFragment.updateId(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+                fragmentTransaction.replace(R.id.main_fragment_container, detailFragment);
+                fragmentTransaction.addToBackStack("next");
+                fragmentTransaction.commit();
+            }
+        };
+    }
+
+
 
     //uses a string builder to add keyword, location, and fultime queries to the url string.
     //if no info is provided, all jobs will be returned.
@@ -147,9 +220,11 @@ public class SearchListFragment extends Fragment {
             @Override
             public void onResponse(Response response) throws IOException {
                 final String result = response.body().string();  // 4
-                Log.d("result", result);
-                //sends result to gitJobslisting class which parses the json string.
-                GitJobsListings gitList = new GitJobsListings(result);
+
+                //Log.d("result", result);
+                jsonResult = result;
+                //sends result to gitjobslisting class which parses the json string.
+                gitList = new GitJobsListings(result);
                 //adds the parsed jobs to the list.
                 gitJobsList.addAll(gitList.getGitJobsModelList());
 //
@@ -159,7 +234,7 @@ public class SearchListFragment extends Fragment {
                 editor.putString(keyword + location, result);
                 editor.apply();*/
                 //logs the size
-                Log.d("gitJobsList: ", String.valueOf(gitJobsList.size()));
+                //Log.d("gitJobsList: ", String.valueOf(gitJobsList.size()));
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
