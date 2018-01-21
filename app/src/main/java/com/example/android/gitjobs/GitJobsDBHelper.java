@@ -3,8 +3,10 @@ package com.example.android.gitjobs;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.android.gitjobs.model.GitJobsModel;
 
@@ -24,6 +26,7 @@ import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry.COLUMN_
 import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry.COLUMN_NAME_TYPE;
 import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry.COLUMN_NAME_URL;
 import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry.TABLE_NAME;
+import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry._ID;
 
 /**
  * Created by amirahoxendine on 1/20/18.
@@ -33,6 +36,22 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "gitjobs.db";
     private static final int SCHEMA_VERSION = 1;
+    private static final String SQL_CREATE_ENTRIES =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+                    COLUMN_NAME_STATUS + " TEXT, " +
+                    COLUMN_NAME_JOB_ID + " TEXT, " +
+                    COLUMN_NAME_CREATED_AT + " TEXT, " +
+                    COLUMN_NAME_TITLE + " TEXT, " +
+                    COLUMN_NAME_LOCATION + " TEXT, " +
+                    COLUMN_NAME_TYPE + " TEXT, " +
+                    COLUMN_NAME_DESCRIPTION + " TEXT, " +
+                    COLUMN_NAME_HOW_TO_APPLY + " TEXT, " +
+                    COLUMN_NAME_COMPANY + " TEXT, " +
+                    COLUMN_NAME_COMPANY_URL + " TEXT, " +
+                    COLUMN_NAME_COMPANY_LOGO + " TEXT, " +
+                    COLUMN_NAME_URL + " TEXT);";
+    private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public GitJobsDBHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA_VERSION);
@@ -41,32 +60,49 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(String.format("CREATE TABLE %s (%s STRING PRIMARY KEY, %s STRING);", TABLE_NAME,
-                COLUMN_NAME_STATUS,
-                COLUMN_NAME_JOB_ID,
-                COLUMN_NAME_CREATED_AT,
-                COLUMN_NAME_TITLE,
-                COLUMN_NAME_LOCATION,
-                COLUMN_NAME_TYPE,
-                COLUMN_NAME_DESCRIPTION,
-                COLUMN_NAME_HOW_TO_APPLY,
-                COLUMN_NAME_COMPANY,
-                COLUMN_NAME_COMPANY_URL,
-                COLUMN_NAME_COMPANY_LOGO,
-                COLUMN_NAME_URL));
+        db.execSQL(SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(db);
     }
 
-    public void insertJob(GitJobsModel job, String status) {
-        Cursor cursor = getReadableDatabase().rawQuery(
-                "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_JOB_ID + " = '" + job.getId() +
-                        "';", null);
-        if (cursor.getCount() == 0) {
+    public void deleteTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(SQL_DELETE_ENTRIES);
+    }
 
-            SQLiteDatabase db = this.getWritableDatabase();
+    public boolean insertJob(GitJobsModel job, String status) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        onCreate(db);
+       /* getWritableDatabase().execSQL("INSERT INTO " + TABLE_NAME +
+                "(" + COLUMN_NAME_STATUS + ", " +
+                COLUMN_NAME_JOB_ID + ", " +
+                COLUMN_NAME_CREATED_AT + ", " +
+                COLUMN_NAME_TITLE + ", " +
+                COLUMN_NAME_LOCATION + ", " +
+                COLUMN_NAME_TYPE + ", " +
+                COLUMN_NAME_DESCRIPTION+ ", " +
+                COLUMN_NAME_HOW_TO_APPLY+ ", " +
+                COLUMN_NAME_COMPANY+ ", " +
+                COLUMN_NAME_COMPANY_URL+ ", " +
+                COLUMN_NAME_COMPANY_LOGO+ ", " +
+                COLUMN_NAME_URL + ") VALUES ('" +
+                status + "', '" +
+               job.getId() + "', '" +
+                job.getCreated_at() + "', " +
+                DatabaseUtils.sqlEscapeString(job.getTitle()) + ", " +
+                DatabaseUtils.sqlEscapeString(job.getLocation()) + ", " +
+                DatabaseUtils.sqlEscapeString(job.getType()) + ", " +
+                DatabaseUtils.sqlEscapeString(job.getDescription()) + ", " +
+                DatabaseUtils.sqlEscapeString(job.getHow_to_apply()) + ", " +
+                DatabaseUtils.sqlEscapeString(job.getCompany()) + ", '" +
+                job.getCompany_url() + "', '" +
+                job.getCompany_logo() + "', '" +
+                job.getUrl() + "');");*/
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_NAME_STATUS, status);
             contentValues.put(COLUMN_NAME_JOB_ID, job.getId());
@@ -80,10 +116,8 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_NAME_COMPANY_URL, job.getCompany_url());
             contentValues.put(COLUMN_NAME_COMPANY_LOGO, job.getCompany_logo());
             contentValues.put(COLUMN_NAME_URL, job.getUrl());
-
             db.insert(TABLE_NAME, null, contentValues);
-        }
-        cursor.close();
+        return true;
     }
 
     public List<GitJobsModel> getSavedJobsList() {
@@ -107,6 +141,7 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                 gitSavedJobs.add(job);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return gitSavedJobs;
     }
 
@@ -136,10 +171,13 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
     }
 
     public GitJobsModel getJobById(String id){
-        //GitJobsModel job;
-        Cursor cursor = getReadableDatabase().rawQuery(
-                "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_JOB_ID + " = '" + id +
-                        "';", null);
+
+        Log.d("job id", id);
+        GitJobsModel job = new GitJobsModel();
+
+        /*Cursor cursor = this.getReadableDatabase()
+                .rawQuery(
+                "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='search';", null);
                 GitJobsModel job = new GitJobsModel(
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_JOB_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_CREATED_AT)),
@@ -152,7 +190,9 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
-        return job;
+                        cursor.close();
+        Log.d("job title", job.getTitle());*/
+                return job;
     }
 
 }
