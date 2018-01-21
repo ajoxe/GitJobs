@@ -3,6 +3,7 @@ package com.example.android.gitjobs.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -70,7 +71,20 @@ public class GitJobsDetailFragment extends Fragment {
         type.setText(job.getType());
         description.setText(Html.fromHtml(job.getDescription()));
         apply.setText(Html.fromHtml(job.getHow_to_apply()));
-        url.setText(job.getCompany_url());
+        url.setVisibility(View.GONE);
+        if (job.getCompany_url() != null){
+            url.setVisibility(View.VISIBLE);
+            url.setText("Visit Website");
+            url.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent applyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.getCompany_url()));
+                    startActivity(applyIntent);
+                }
+            });
+        }
+
+
 
         Picasso.with(context).load(job.getCompany_logo()).into(logo);
 

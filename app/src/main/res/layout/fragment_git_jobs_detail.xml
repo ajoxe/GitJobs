@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
     <Button
         android:id="@+id/comp_url"
         android:layout_width="wrap_content"
@@ -23,22 +23,28 @@
         android:text="Company's Website" />
     <ImageView
         android:id="@+id/company_logo"
-        android:layout_width="100dp"
-        android:layout_height="200dp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"/>
     </LinearLayout>
 
     <TextView
         android:id="@+id/job_company"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Company"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
     <TextView
         android:id="@+id/job_created"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="created at"/>
     <TextView
         android:id="@+id/job_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
     <TextView
         android:id="@+id/job_location"
         android:layout_width="match_parent"
