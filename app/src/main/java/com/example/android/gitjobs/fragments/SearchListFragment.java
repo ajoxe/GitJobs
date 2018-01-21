@@ -1,9 +1,12 @@
 package com.example.android.gitjobs.fragments;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.gitjobs.GitJobsDBHelper;
 import com.example.android.gitjobs.GitJobsListings;
 import com.example.android.gitjobs.MainActivity;
 import com.example.android.gitjobs.R;
@@ -54,6 +58,9 @@ public class SearchListFragment extends Fragment {
     boolean isFullTime;
     RecyclerView recyclerView;
     View.OnClickListener searchListButtonClick;
+    Context context;
+    GitJobsListings gitList;
+    String jsonResult;
 
 
     public SearchListFragment() {
@@ -71,12 +78,14 @@ public class SearchListFragment extends Fragment {
         listings = rootView.findViewById(R.id.listings_textview);
         recyclerView = rootView.findViewById(R.id.search_list_recyclerview);
         setRecyclerView();
+        context = getContext();
         return rootView;
     }
 
     public void setRecyclerView(){
         searchListRecyclerView = rootView.findViewById(R.id.search_list_recyclerview);
-        gitJobsAdapter = new GitJobsAdapter(gitJobsList, getContext());
+        setSearchListButton();
+        gitJobsAdapter = new GitJobsAdapter(gitJobsList, getContext(), searchListButtonClick);
         linearLayoutManager = new LinearLayoutManager(getContext());
         //cant set or update the adapter until the class is built
         searchListRecyclerView.setAdapter(gitJobsAdapter);
@@ -98,8 +107,21 @@ public class SearchListFragment extends Fragment {
         searchListButtonClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                String jobId = v.getTag().toString();
+                /*GitJobsModel job = gitList.getJobFromListById(jobId);
+                GitJobsDBHelper db = new GitJobsDBHelper(context);
+                db.insertJob(job, "search");*/
+                GitJobsDetailFragment detailFragment = new GitJobsDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("job_id", jobId);
+                //Log.d("result", jsonResult);
+                bundle.putString("result", jsonResult);
+                detailFragment.updateId(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.main_fragment_container, detailFragment);
+                fragmentTransaction.addToBackStack("next");
+                fragmentTransaction.commit();
             }
         };
     }
@@ -158,9 +180,10 @@ public class SearchListFragment extends Fragment {
             @Override
             public void onResponse(Response response) throws IOException {
                 final String result = response.body().string();  // 4
-                Log.d("result", result);
+                //Log.d("result", result);
+                jsonResult = result;
                 //sends result to gitjobslisting class which parses the json string.
-                GitJobsListings gitList = new GitJobsListings(result);
+                gitList = new GitJobsListings(result);
                 //adds the parsed jobs to the list.
                 gitJobsList.addAll(gitList.getGitJobsModelList());
 //
@@ -170,7 +193,7 @@ public class SearchListFragment extends Fragment {
                 editor.putString(keyword + location, result);
                 editor.apply();*/
                 //logs the size
-                Log.d("gitJobsList: ", String.valueOf(gitJobsList.size()));
+                //Log.d("gitJobsList: ", String.valueOf(gitJobsList.size()));
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override

@@ -4,6 +4,7 @@ package com.example.android.gitjobs.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.gitjobs.GitJobsDBHelper;
+import com.example.android.gitjobs.GitJobsListings;
 import com.example.android.gitjobs.R;
 import com.example.android.gitjobs.model.GitJobsModel;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +29,8 @@ public class GitJobsDetailFragment extends Fragment {
     Button url;
     ImageView logo;
     String job_id;
+    String result;
+    List<GitJobsModel> jobs = new ArrayList<>();
 
     GitJobsModel job = new GitJobsModel();
 
@@ -62,7 +70,14 @@ public class GitJobsDetailFragment extends Fragment {
     }
     public void updateId(Bundle bundle){
         job_id = bundle.getString("job_id");
-        //job = db.getJobById(job_id);
+        result = bundle.getString("result");
+        GitJobsListings gitutil = new GitJobsListings(result);
+        jobs.addAll(gitutil.getGitJobsModelList());
+        Log.d("jobs list", String.valueOf(jobs.size()));
+        job = gitutil.getJobFromListById(job_id);
+
+        /*GitJobsDBHelper db = new GitJobsDBHelper(getContext());
+        job = db.getJobById(job_id);*/
     }
 
 

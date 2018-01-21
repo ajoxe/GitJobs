@@ -23,10 +23,12 @@ public class GitJobsAdapter extends RecyclerView.Adapter<GitJobsViewHolder>{
 
     List<GitJobsModel> jobsList;
     Context context;
+    View.OnClickListener searchListOnClick;
 
-    public GitJobsAdapter(List<GitJobsModel> jobsList, Context context) {
+    public GitJobsAdapter(List<GitJobsModel> jobsList, Context context, View.OnClickListener searchListOnClick ) {
         this.jobsList = jobsList;
         this.context = context;
+        this.searchListOnClick = searchListOnClick;
     }
 
     @Override
@@ -39,6 +41,8 @@ public class GitJobsAdapter extends RecyclerView.Adapter<GitJobsViewHolder>{
     public void onBindViewHolder(GitJobsViewHolder holder, int position) {
         GitJobsModel job = jobsList.get(position);
         holder.onBind(job);
+        holder.itemView.setTag(job.getId());
+        holder.itemView.setOnClickListener(searchListOnClick);
 
     }
 
