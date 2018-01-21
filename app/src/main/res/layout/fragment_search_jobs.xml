@@ -6,6 +6,11 @@
     android:padding="32dp"
     tools:context="com.example.android.gitjobs.fragments.SearchJobsFragment"
     android:layout_gravity="center">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/gitjoblogo"/>
 
     <TextView
         android:layout_width="match_parent"
