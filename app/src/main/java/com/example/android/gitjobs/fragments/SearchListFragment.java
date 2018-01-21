@@ -114,8 +114,6 @@ public class SearchListFragment extends Fragment {
                 GitJobsDetailFragment detailFragment = new GitJobsDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("job_id", jobId);
-                //Log.d("result", jsonResult);
-                bundle.putString("result", jsonResult);
                 detailFragment.updateId(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

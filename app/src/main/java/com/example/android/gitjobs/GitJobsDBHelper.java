@@ -37,7 +37,8 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "gitjobs.db";
     private static final int SCHEMA_VERSION = 1;
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                    " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_NAME_STATUS + " TEXT, " +
                     COLUMN_NAME_JOB_ID + " TEXT, " +
                     COLUMN_NAME_CREATED_AT + " TEXT, " +
@@ -103,6 +104,7 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                 job.getCompany_url() + "', '" +
                 job.getCompany_logo() + "', '" +
                 job.getUrl() + "');");*/
+       Log.d("insertInto jobID", job.getId());
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_NAME_STATUS, status);
             contentValues.put(COLUMN_NAME_JOB_ID, job.getId());
@@ -116,7 +118,11 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_NAME_COMPANY_URL, job.getCompany_url());
             contentValues.put(COLUMN_NAME_COMPANY_LOGO, job.getCompany_logo());
             contentValues.put(COLUMN_NAME_URL, job.getUrl());
-            db.insert(TABLE_NAME, null, contentValues);
+            long rowid = db.insert(TABLE_NAME, null, contentValues);
+            Log.d("row id", String.valueOf(rowid));
+            GitJobsModel insertJob = getJobById(job.getId());
+            Log.d("insertedJob", job.getId());
+
         return true;
     }
 
@@ -174,11 +180,13 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
 
         Log.d("job id", id);
         GitJobsModel job = new GitJobsModel();
-
-        /*Cursor cursor = this.getReadableDatabase()
+        Cursor cursor = this.getReadableDatabase()
                 .rawQuery(
                 "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='search';", null);
-                GitJobsModel job = new GitJobsModel(
+        if (cursor.moveToFirst()) {
+            do {
+
+                job = new GitJobsModel(
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_JOB_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_CREATED_AT)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TITLE)),
@@ -190,8 +198,10 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
+            } while (cursor.moveToNext());
+        }
                         cursor.close();
-        Log.d("job title", job.getTitle());*/
+        Log.d("job title", job.getTitle());
                 return job;
     }
 
