@@ -26,5 +26,9 @@ public class GitJobsDBContract {
         public static final String COLUMN_NAME_URL = "url";
         public static final String COLUMN_NAME_STATUS = "status";
         public static final String _ID = "_id";
+        public static final String _STATUS_SAVED = "saved";
+        public static final String _STATUS_SEARCHED = "search";
+        public static final String _STATUS_APPLIED = "applied";
+
     }
 }

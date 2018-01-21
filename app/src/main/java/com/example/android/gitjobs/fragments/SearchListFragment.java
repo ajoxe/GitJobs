@@ -38,6 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry._STATUS_APPLIED;
+import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry._STATUS_SAVED;
+import static com.example.android.gitjobs.GitJobsDBContract.GitJobsentry._STATUS_SEARCHED;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,7 +118,7 @@ public class SearchListFragment extends Fragment {
                 String jobId = v.getTag().toString();
                 GitJobsModel job = gitList.getJobFromListById(jobId);
                 GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
-                db.insertJob(job, "apply");
+                db.insertJob(job, _STATUS_APPLIED);
                 Intent applyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.getUrl()));
             }
         };
@@ -128,7 +131,7 @@ public class SearchListFragment extends Fragment {
                 String jobId = v.getTag().toString();
                 GitJobsModel job = gitList.getJobFromListById(jobId);
                 GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
-                db.insertJob(job, "save");
+                db.insertJob(job, _STATUS_SAVED);
             }
         };
     }
@@ -140,13 +143,14 @@ public class SearchListFragment extends Fragment {
                 String jobId = v.getTag().toString();
                 GitJobsModel job = gitList.getJobFromListById(jobId);
                 GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
-                db.insertJob(job, "search");
+                db.insertJob(job, _STATUS_SEARCHED);
                 GitJobsDetailFragment detailFragment = new GitJobsDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("job_id", jobId);
                 detailFragment.updateId(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
                 fragmentTransaction.replace(R.id.main_fragment_container, detailFragment);
                 fragmentTransaction.addToBackStack("next");
                 fragmentTransaction.commit();
