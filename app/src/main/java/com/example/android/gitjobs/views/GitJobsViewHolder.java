@@ -1,10 +1,12 @@
 package com.example.android.gitjobs.views;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.gitjobs.R;
@@ -22,8 +24,9 @@ public class GitJobsViewHolder extends RecyclerView.ViewHolder{
     TextView tv2;
     TextView tv3;
     TextView tv4;
-    Button saveBtn;
-    Button applyBtn;
+    public Button saveBtn;
+    public Button applyBtn;
+    public LinearLayout linearLayout;
 
 
     //TODO extend recyclerview, implent methods.
@@ -39,6 +42,7 @@ public class GitJobsViewHolder extends RecyclerView.ViewHolder{
         tv4 = itemView.findViewById(R.id.git_jobs_location_text_view);
         saveBtn = itemView.findViewById(R.id.save_btn);
         applyBtn = itemView.findViewById(R.id.apply_btn);
+        linearLayout = itemView.findViewById(R.id.job_item_layout);
     }
 
     public void onBind(GitJobsModel gitJobsModel) {
@@ -47,19 +51,8 @@ public class GitJobsViewHolder extends RecyclerView.ViewHolder{
         tv2.setText(gitJobsModel.getCompany());
         tv3.setText(gitJobsModel.getCreated_at());
         tv4.setText(gitJobsModel.getLocation());
-
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        applyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        linearLayout.setTag(gitJobsModel.getId());
+        saveBtn.setTag(gitJobsModel.getId());
+        applyBtn.setTag(gitJobsModel.getId());
     }
 }
