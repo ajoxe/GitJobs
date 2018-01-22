@@ -6,6 +6,11 @@
     android:padding="32dp"
     tools:context="com.example.android.gitjobs.fragments.SearchJobsFragment"
     android:layout_gravity="center">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/gitjoblogo"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -14,7 +19,7 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
         android:textSize="32sp"
         android:textAlignment="center"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginTop="32dp"/>
 
     <EditText
@@ -43,7 +48,7 @@
         android:layout_height="wrap_content"
         android:text="Full Time"
         android:paddingTop="16dp"
-        android:paddingBottom="32dp"
+        android:paddingBottom="24dp"
         android:layout_gravity="end"/>
 
     </LinearLayout>
@@ -56,6 +61,5 @@
         android:background="@color/colorPrimary"
         android:layout_gravity="center"
         />
-
 
 </LinearLayout>

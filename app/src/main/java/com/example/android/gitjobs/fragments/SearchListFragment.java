@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class SearchListFragment extends Fragment {
     private SharedPreferences gitJobsJson;
     TextView searchTerm;
     TextView listings;
+    ImageView company_logo;
     RecyclerView searchListRecyclerView;
     GitJobsAdapter gitJobsAdapter;
     List<GitJobsModel> gitJobsList = new ArrayList<>();
@@ -218,6 +220,7 @@ public class SearchListFragment extends Fragment {
             @Override
             public void onResponse(Response response) throws IOException {
                 final String result = response.body().string();  // 4
+
                 //Log.d("result", result);
                 jsonResult = result;
                 //sends result to gitjobslisting class which parses the json string.
