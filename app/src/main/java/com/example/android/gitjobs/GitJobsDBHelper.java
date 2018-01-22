@@ -100,6 +100,7 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_NAME_COMPANY_URL, job.getCompany_url());
             contentValues.put(COLUMN_NAME_COMPANY_LOGO, job.getCompany_logo());
             contentValues.put(COLUMN_NAME_URL, job.getUrl());
+
             long rowid = db.insert(TABLE_NAME, null, contentValues);
             Log.d(TAG, "insertJob: rowID = " + String.valueOf(rowid));
         Log.d(TAG, "insertJob: status = " + status);
@@ -115,24 +116,7 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
         Cursor cursor = this.getReadableDatabase()
                 .rawQuery(
                         "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='" +_STATUS_SAVED + "';", null);
-        if (cursor.moveToFirst()) {
-            do {
-                GitJobsModel job = new GitJobsModel(
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_JOB_ID)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_CREATED_AT)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TITLE)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_LOCATION)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TYPE)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCRIPTION)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HOW_TO_APPLY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
-                gitSavedJobs.add(job);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+       addJobsToList(cursor, gitSavedJobs);
         Log.d(TAG,"getSavedJobsList: list size = " + gitSavedJobs.size());
         return gitSavedJobs;
     }
@@ -142,26 +126,33 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
         Cursor cursor = this.getReadableDatabase()
                 .rawQuery(
                         "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='" +_STATUS_APPLIED + "';", null);
-        if (cursor.moveToFirst()) {
-            do {
-                GitJobsModel job = new GitJobsModel(
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_JOB_ID)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_CREATED_AT)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TITLE)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_LOCATION)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TYPE)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCRIPTION)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HOW_TO_APPLY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
-                gitAppliedJobs.add(job);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+
+        addJobsToList(cursor, gitAppliedJobs);
         Log.d(TAG,"getAppliedJobsList: list size = " + gitAppliedJobs.size());
         return gitAppliedJobs;
+    }
+
+    private void addJobsToList(Cursor cursor, List<GitJobsModel> jobsList){
+        if(cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    GitJobsModel job = new GitJobsModel(
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_JOB_ID)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_CREATED_AT)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TITLE)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_LOCATION)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TYPE)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCRIPTION)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HOW_TO_APPLY)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_URL)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COMPANY_LOGO)),
+                            cursor.getString(cursor.getColumnIndex(COLUMN_NAME_URL)));
+                    jobsList.add(job);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
     }
 
     public GitJobsModel getJobById(String job_id){
