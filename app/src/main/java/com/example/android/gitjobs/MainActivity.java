@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setFragments();
         /*GitJobsDBHelper dbHelper = new GitJobsDBHelper(getApplicationContext());
-        dbHelper.deleteTable();
-        long size = dbHelper.getReadableDatabase().getPageSize();
-        Log.d("size", String.valueOf(size));
-        dbHelper.close();*/
+        dbHelper.deleteTable();*/
+        /*long size = dbHelper.getReadableDatabase().getPageSize();
+        Log.d("size", String.valueOf(size));*/
+        //dbHelper.close();
         //String faux ="gitjob";
         //db.insertJob(new GitJobsModel(faux,faux,faux,faux,faux, faux, faux, faux, faux, faux, faux), "search");
     }
