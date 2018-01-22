@@ -82,55 +82,86 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
         Log.d(TAG, "deleteTable: Table Deleted");
     }
 
+    private boolean jobEntryExists(String job_id, String status) {
+        Cursor cursor = this.getReadableDatabase()
+                .rawQuery("SELECT * FROM "
+                        + TABLE_NAME
+                        + " WHERE "
+                        + COLUMN_NAME_JOB_ID + " ='"
+                        + job_id
+                        + "' AND "
+                        + COLUMN_NAME_STATUS + " ='"
+                        + status
+                        + "';", null);
+        if (cursor.getCount() == 0) {
+            cursor.close();
+            Log.d(TAG, "jobEntryExists: false ");
+            return false;
+        }
+        cursor.close();
+        Log.d(TAG, "jobEntryExists: true ");
+        return true;
+    }
+
     public boolean insertJob(GitJobsModel job, String status) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         onCreate(db);
-       Log.d(TAG,"insertInto: job_id = " + job.getId());
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(COLUMN_NAME_STATUS, status);
-            contentValues.put(COLUMN_NAME_JOB_ID, job.getId());
-            contentValues.put(COLUMN_NAME_CREATED_AT, job.getCreated_at());
-            contentValues.put(COLUMN_NAME_TITLE, job.getTitle());
-            contentValues.put(COLUMN_NAME_LOCATION, job.getLocation());
-            contentValues.put(COLUMN_NAME_TYPE, job.getType());
-            contentValues.put(COLUMN_NAME_DESCRIPTION, job.getDescription());
-            contentValues.put(COLUMN_NAME_HOW_TO_APPLY, job.getHow_to_apply());
-            contentValues.put(COLUMN_NAME_COMPANY, job.getCompany());
-            contentValues.put(COLUMN_NAME_COMPANY_URL, job.getCompany_url());
-            contentValues.put(COLUMN_NAME_COMPANY_LOGO, job.getCompany_logo());
-            contentValues.put(COLUMN_NAME_URL, job.getUrl());
-            long rowid = db.insert(TABLE_NAME, null, contentValues);
-            Log.d(TAG, "insertJob: rowID = " + String.valueOf(rowid));
-        Log.d(TAG, "insertJob: status = " + status);
-        GitJobsModel insertJob = getJobById(job.getId());
-        Log.d(TAG, "insertJob: getJobById: job_id = " + job.getId());
-        db.close();
+        Log.d(TAG, "insertInto: job_id = " + job.getId());
 
+        if (jobEntryExists(job.getId(), status)){
+            Log.d(TAG, "insertInto: job already exists in db ");
+            db.close();
+            return false;
+        }
+        Log.d(TAG, "insertInto: inserting job into db ");
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NAME_STATUS, status);
+        contentValues.put(COLUMN_NAME_JOB_ID, job.getId());
+        contentValues.put(COLUMN_NAME_CREATED_AT, job.getCreated_at());
+        contentValues.put(COLUMN_NAME_TITLE, job.getTitle());
+        contentValues.put(COLUMN_NAME_LOCATION, job.getLocation());
+        contentValues.put(COLUMN_NAME_TYPE, job.getType());
+        contentValues.put(COLUMN_NAME_DESCRIPTION, job.getDescription());
+        contentValues.put(COLUMN_NAME_HOW_TO_APPLY, job.getHow_to_apply());
+        contentValues.put(COLUMN_NAME_COMPANY, job.getCompany());
+        contentValues.put(COLUMN_NAME_COMPANY_URL, job.getCompany_url());
+        contentValues.put(COLUMN_NAME_COMPANY_LOGO, job.getCompany_logo());
+        contentValues.put(COLUMN_NAME_URL, job.getUrl());
+
+        long rowid = db.insert(TABLE_NAME, null, contentValues);
+        Log.d(TAG, "insertJob: rowID = " + String.valueOf(rowid));
+        Log.d(TAG, "insertJob: status = " + status);
+
+        GitJobsModel insertJob = getJobById(job.getId());
+        Log.d(TAG, "insertJob: getJobById: job_id = " + insertJob.getId());
+
+        db.close();
         return true;
     }
 
     public List<GitJobsModel> getSavedJobsList() {
         List<GitJobsModel> gitSavedJobs = new ArrayList<>();
         Cursor cursor = this.getReadableDatabase()
-                .rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='" +_STATUS_SAVED + "';", null);
-       addJobsToList(cursor, gitSavedJobs);
-        Log.d(TAG,"getSavedJobsList: list size = " + gitSavedJobs.size());
+                .rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='" + _STATUS_SAVED + "';", null);
+        addJobsToList(cursor, gitSavedJobs);
+        Log.d(TAG, "getSavedJobsList: list size = " + gitSavedJobs.size());
         return gitSavedJobs;
     }
 
     public List<GitJobsModel> getAppliedJobsList() {
         List<GitJobsModel> gitAppliedJobs = new ArrayList<>();
         Cursor cursor = this.getReadableDatabase()
-                .rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='" +_STATUS_APPLIED + "';", null);
+                .rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_STATUS + " ='" + _STATUS_APPLIED + "';", null);
 
         addJobsToList(cursor, gitAppliedJobs);
-        Log.d(TAG,"getAppliedJobsList: list size = " + gitAppliedJobs.size());
+        Log.d(TAG, "getAppliedJobsList: list size = " + gitAppliedJobs.size());
         return gitAppliedJobs;
     }
 
-    private void addJobsToList(Cursor cursor, List<GitJobsModel> jobsList){
-        if(cursor != null) {
+    private void addJobsToList(Cursor cursor, List<GitJobsModel> jobsList) {
+        if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
                     GitJobsModel job = new GitJobsModel(
@@ -152,7 +183,7 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public GitJobsModel getJobById(String job_id){
+    public GitJobsModel getJobById(String job_id) {
         Log.d(TAG, "getJobByID: id = " + job_id);
         GitJobsModel job = new GitJobsModel();
         Cursor cursor = this.getReadableDatabase()
@@ -160,7 +191,6 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
                         "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME_JOB_ID + " ='" + job_id + "';", null);
         if (cursor.moveToFirst()) {
             do {
-
                 job = new GitJobsModel(
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_JOB_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_NAME_CREATED_AT)),
@@ -180,5 +210,38 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
         return job;
     }
 
+
+
+    public void deleteSavedJob(GitJobsModel job){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, COLUMN_NAME_JOB_ID + " = " + job.getId(), null);
+        db.close();
+        //look up using where clause and where args : db.delete("tablename","id=? and name=?",new String[]{"1","jack"});
+        //TODO add logic to delete job from db with saved status
+    }
+
+    public void deleteAppliedJob(GitJobsModel job){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, COLUMN_NAME_JOB_ID + " = " + job.getId(), null);
+        db.close();
+        //TODO add logic to delete job from db with applied status
+    }
+
+    public void deleteAllSavedJobs(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, COLUMN_NAME_STATUS + " = " + _STATUS_SAVED, null);
+        db.close();
+
+    }
+
+    public void deleteAllAppliedJobs(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, COLUMN_NAME_STATUS + " = " + _STATUS_APPLIED, null);
+        db.close();
+    }
+    //TODO add recents column
+    public void updateRecentsList(){
+        //TODO check size of jobs in recent column, if > 10, delete earliest entry if status is search, else update recent column
+    }
 }
 
