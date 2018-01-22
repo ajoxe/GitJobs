@@ -1,5 +1,6 @@
 package com.example.android.gitjobs.views;
 
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.android.gitjobs.R;
 import com.example.android.gitjobs.model.GitJobsModel;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -19,11 +21,12 @@ import com.example.android.gitjobs.model.GitJobsModel;
 
 public class GitJobsViewHolder extends RecyclerView.ViewHolder{
 
-//    ImageView jobLogo;
+    ImageView jobLogo;
     TextView tv1;
     TextView tv2;
     TextView tv3;
     TextView tv4;
+   // Context context;
     public Button saveBtn;
     public Button applyBtn;
     public LinearLayout linearLayout;
@@ -34,8 +37,9 @@ public class GitJobsViewHolder extends RecyclerView.ViewHolder{
 
     public GitJobsViewHolder(View itemView) {
         super(itemView);
+        //context = itemView.getContext().getApplicationContext();
 
-//        jobLogo = itemView.findViewById(R.id.logo_image_view);
+        jobLogo = itemView.findViewById(R.id.logo_image_view);
         tv1 = itemView.findViewById(R.id.git_jobs_title_text_view);
         tv2 = itemView.findViewById(R.id.git_jobs_company_text_view);
         tv3 = itemView.findViewById(R.id.git_jobs_created_at_text_view);
@@ -52,8 +56,13 @@ public class GitJobsViewHolder extends RecyclerView.ViewHolder{
         tv2.setText(gitJobsModel.getCompany());
         tv3.setText(gitJobsModel.getCreated_at());
         tv4.setText(gitJobsModel.getLocation());
+
         linearLayout.setTag(gitJobsModel.getId());
         saveBtn.setTag(gitJobsModel.getId());
         applyBtn.setTag(gitJobsModel.getId());
+    }
+
+    public void setImageView(Context context, GitJobsModel job){
+        Picasso.with(context).load(job.getCompany_logo()).into(jobLogo);
     }
 }
