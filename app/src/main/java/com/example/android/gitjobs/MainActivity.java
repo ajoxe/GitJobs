@@ -123,13 +123,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.search_menu:
-                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, searchJobsFragment).commit();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_container, searchJobsFragment)
+                        .addToBackStack("next")
+                        .commit();
                 break;
             case R.id.saved_menu:
-                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, savedJobsFragment).commit();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_container, savedJobsFragment)
+                        .addToBackStack("next")
+                        .commit();
                 break;
             case R.id.applied_menu:
-                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, jobsAppliedToFragment).commit();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_container, jobsAppliedToFragment)
+                        .addToBackStack("next")
+                        .commit();
                 break;
         }
         return true;
