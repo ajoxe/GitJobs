@@ -55,6 +55,7 @@ public class SavedJobsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_saved_jobs, container, false);
         db = new GitJobsDBHelper(getActivity());
         savedJobsList = db.getSavedJobsList();
+        db.close();
         Log.d("saved fragment", "list size : " + savedJobsList.size());
         context = getContext().getApplicationContext();
         setUpRecyclerView();

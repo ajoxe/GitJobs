@@ -124,6 +124,7 @@ public class SearchListFragment extends Fragment {
                 GitJobsModel job = gitList.getJobFromListById(jobId);
                 GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
                 db.insertJob(job, _STATUS_APPLIED);
+                db.close();
                 Intent applyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.getUrl()));
                 startActivity(applyIntent);
                 Toast.makeText(getActivity(), "This job is saved to your 'applied' list!", Toast.LENGTH_SHORT).show();
@@ -139,6 +140,7 @@ public class SearchListFragment extends Fragment {
                 GitJobsModel job = gitList.getJobFromListById(jobId);
                 GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
                 db.insertJob(job, _STATUS_SAVED);
+                db.close();
                 Toast.makeText(getActivity(), "This job is saved to your 'saved' list!", Toast.LENGTH_SHORT).show();
             }
         };
@@ -152,6 +154,7 @@ public class SearchListFragment extends Fragment {
                 GitJobsModel job = gitList.getJobFromListById(jobId);
                 GitJobsDBHelper db = new GitJobsDBHelper(context.getApplicationContext());
                 db.insertJob(job, _STATUS_SEARCHED);
+                db.close();
                 GitJobsDetailFragment detailFragment = new GitJobsDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("job_id", jobId);

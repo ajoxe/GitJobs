@@ -240,7 +240,7 @@ public class GitJobsDBHelper extends SQLiteOpenHelper {
         db.close();
     }
     //TODO add recents column
-    public void updateRecentsList(){
+    public void updateSearchEntries(){
         //TODO check size of jobs in recent column, if > 10, delete earliest entry if status is search, else update recent column
     }
 }

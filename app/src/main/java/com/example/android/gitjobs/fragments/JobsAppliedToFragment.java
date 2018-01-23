@@ -52,6 +52,7 @@ public class JobsAppliedToFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_jobs_applied_to, container, false);
         db = new GitJobsDBHelper(getActivity());
         appliedJobsList = db.getAppliedJobsList();
+        db.close();
         Log.d("applied fragment", "list size : " + appliedJobsList.size());
         context = getContext().getApplicationContext();
         setUpRecyclerView();
