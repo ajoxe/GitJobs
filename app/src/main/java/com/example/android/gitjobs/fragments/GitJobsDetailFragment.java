@@ -64,6 +64,7 @@ public class GitJobsDetailFragment extends Fragment {
         context = getActivity().getApplicationContext();
         db = new GitJobsDBHelper(getActivity());
         job = db.getJobById(job_id);
+        db.close();
 
         company.setText(job.getCompany());
         jobCreated.setText(job.getCreated_at());
